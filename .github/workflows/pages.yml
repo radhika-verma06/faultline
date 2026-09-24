@@ -1,0 +1,61 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Verify before publishing
+        run: npm run verify
+
+      - name: Build the static export
+        run: npm run build
+        env:
+          # The base path a project site needs. Without this the app builds and
+          # serves exactly as it does locally.
+          GITHUB_PAGES: "1"
+          # No key here on purpose. A secret inlined into a public bundle is
+          # readable by anyone who opens the page; the deployed demo runs the
+          # built-in reader and is fully functional without one.
+          # See docs/adr/0006.
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,9 @@
+# Every path is owned by the maintainer. The knowledge base, the authored lessons and the evidence
+# weights are called out separately because they are judgement rather than arithmetic: a change there
+# changes what the product tells a student, and it should not arrive without a reviewer who knows that.
+
+*                                   @radhika-verma06
+
+/src/lib/domain/                    @radhika-verma06
+/src/lib/engine/                    @radhika-verma06
+/docs/adr/                          @radhika-verma06

@@ -1,0 +1,37 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    groups:
+      # React, Next, TypeScript and the linting chain move together, and a patch
+      # bump to any one of them is not worth a separate review.
+      framework:
+        patterns:
+          - "next"
+          - "react"
+          - "react-dom"
+          - "eslint*"
+          - "@types/*"
+          - "typescript"
+          - "tailwindcss"
+          - "@tailwindcss/*"
+    ignore:
+      # Majors land deliberately, with the migration read and `npm run verify` run
+      # against them. This app has three runtime dependencies and a public demo;
+      # a silent major is how a working build stops working.
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 2

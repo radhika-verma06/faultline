@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# The README makes claims about what runs. This is where those claims are checked,
+# on every push and every pull request, rather than asserted in a document.
+
+jobs:
+  verify:
+    name: lint · types · tests · build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+  smoke:
+    name: the page actually hydrates
+    runs-on: ubuntu-latest
+
+    # Everything above runs against the components. None of it runs Next's client
+    # runtime, and a page can serve perfect, finished HTML and never hydrate — at
+    # which point nothing on it works and nothing errors either. That is how the
+    # start screen shipped dead: React never attached, so the form submitted
+    # natively and reloaded the page. Only a real browser against a real dev
+    # server sees it, so a real browser is what runs here.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - uses: actions/cache@v4
+        with:
+          path: .pw-browsers
+          key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install the browser
+        run: npm run smoke:install
+
+      - name: Smoke
+        run: npm run smoke
+
+  pages-export:
+    name: the deployable export
+    runs-on: ubuntu-latest
+
+    # The deployed path is built here, on the pull request, rather than for the
+    # first time on the push that publishes it.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build the static export
+        run: npm run build
+        env:
+          GITHUB_PAGES: "1"

@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+/*
+  The look, and why it is this.
+
+  The first version of this file set the product like a lab notebook: warm paper,
+  ink, hairline rules, and one reserved accent. It was defensible and it was
+  wrong. A diagnostic is a *result* — the student's whole reason for being here is
+  to see something they could not see before — and a page that looks like a
+  journal article asks to be read rather than to be looked at. Students do not
+  come back to a report.
+
+  So the paper stays (it is the thing that makes this not look like every other
+  quiz) and the instrument gets a display: colour that carries meaning, filled
+  shapes instead of hairlines, and the map — the twenty fault lines — as the
+  picture the whole page is built around, because that map is the thing a student
+  screenshots and sends to a friend.
+
+  Colour is still a language, not decoration. Four states, four colours, and the
+  same four everywhere they appear:
+
+    belief    blue    the engine's own readings: probabilities, meters, evidence
+    signal    brick   a fault that is live, right now, in this student
+    suspect   amber   a fault the evidence is circling
+    resolved  green   a fault closed, or ruled out
+
+  Brick is reserved for live: it is the loudest colour in the file and it appears
+  roughly once per session, which is what makes it mean something when it does.
+*/
+@theme {
+  --color-paper: #f7f3ea;
+  --color-raised: #fffefa;
+  --color-sunk: #ece4d4;
+
+  --color-ink: #17150f;
+  --color-ink-soft: #4a453a;
+  --color-ink-faint: #8b8272;
+
+  --color-rule: #e0d8c7;
+  --color-rule-strong: #c5bba4;
+
+  --color-belief: #1f5f8b;
+  --color-belief-soft: #dbe9f4;
+
+  --color-signal: #c8371a;
+  --color-signal-soft: #fbded6;
+
+  --color-suspect: #a3700f;
+  --color-suspect-soft: #f9ecca;
+
+  --color-resolved: #2f6b46;
+  --color-resolved-soft: #dcefe1;
+
+  --color-idle: #c2baa8;
+  --color-live: #d94f2b;
+
+  --font-display: Georgia, "Iowan Old Style", "Times New Roman", Times, serif;
+  --font-sans: ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* The faintest possible tooth, so the page is paper and not a flat fill. */
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgb(26 25 22 / 0.035) 1px,
+      transparent 0
+    );
+    background-size: 4px 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-signal);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-belief);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* The instrument's own voice: small, spaced, upper case. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+
+  .reading {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .prose-page {
+    font-family: var(--font-display);
+    line-height: 1.6;
+  }
+}
+
+@layer utilities {
+  /* A wash of colour behind the hero, so the first screen has somewhere to look. */
+  .wash {
+    background-image:
+      radial-gradient(60% 70% at 12% 0%, rgb(31 95 139 / 0.13) 0%, transparent 60%),
+      radial-gradient(55% 65% at 92% 8%, rgb(200 55 26 / 0.12) 0%, transparent 60%),
+      radial-gradient(45% 50% at 60% 100%, rgb(47 107 70 / 0.1) 0%, transparent 60%);
+  }
+
+  /* Ruled paper, used behind the question so the page reads as a worksheet. */
+  .ruled {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 31px,
+      rgb(224 216 199 / 0.55) 31px,
+      rgb(224 216 199 / 0.55) 32px
+    );
+  }
+
+  .animate-rise {
+    animation: rise 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .animate-ink {
+    animation: ink 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .animate-pop {
+    animation: pop 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ink {
+  from {
+    opacity: 0;
+    transform: scaleX(0.4);
+    transform-origin: left;
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  60% {
+    transform: scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-ink,
+  .animate-pop {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
