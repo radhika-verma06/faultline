@@ -261,6 +261,7 @@ export default function Page() {
             onBegin={begin}
             faultNames={MISCONCEPTIONS.map((entry) => entry.name)}
             priorConfirmed={priorConfirmed}
+            live={live}
           />
         )}
 

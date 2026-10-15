@@ -5,7 +5,7 @@
 [![CI](https://github.com/radhika-verma06/faultline/actions/workflows/ci.yml/badge.svg)](https://github.com/radhika-verma06/faultline/actions/workflows/ci.yml)
 [![Deploy](https://github.com/radhika-verma06/faultline/actions/workflows/pages.yml/badge.svg)](https://github.com/radhika-verma06/faultline/actions/workflows/pages.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-a8341d.svg)](LICENSE)
-![tests](https://img.shields.io/badge/tests-79-4f6b45)
+![tests](https://img.shields.io/badge/tests-82-4f6b45)
 ![fault lines](https://img.shields.io/badge/fault%20lines-20-1a1916)
 ![runtime dependencies](https://img.shields.io/badge/runtime%20deps-3%20(react%2C%20next)-8d8577)
 
@@ -15,8 +15,33 @@
 | **Docs** | [architecture](docs/architecture.md) · [verification](docs/verification.md) · [data model](docs/data-model.md) · [go to market](docs/gtm.md) · [ADRs](docs/adr/) |
 | **Track** | Hyper-Personalized EdTech |
 
+🏆 **Winner — Evorozen Ecosystem Scaling Partnership** at [Evorozen Apex: NextGen AI Buildathon](https://evorozen-apex.devpost.com/)
+(Jul 17 – Sep 30, 2026 · online · public · 416 participants · 2 non-cash prizes).
+
 Runs with no API key, no account and no server. Connect an Evorozen Neural Pulse key and the same
 build upgrades to live reasoning reads and a persistent cognitive memory.
+
+### Why it is needed
+
+A score says whether an answer was right; it rarely tells a learner or teacher *why* it was wrong.
+The same option can reflect different mental models, and each calls for a different explanation.
+Faultline uses a short adaptive sequence to distinguish those possibilities, then gives a focused
+learning step instead of another score.
+
+### Who should use it
+
+Physics learners exploring mechanics and the teachers or tutors supporting them. Use Faultline as a
+**formative learning aid** to surface a possible misconception and decide what to explore next. It is
+not a grade, a validated assessment, a diagnosis, or a replacement for a teacher.
+
+### AI in 2026: useful, bounded, and optional
+
+Faultline is not an autonomous tutor or a chatbot asked to decide what a student believes. A
+transparent Bayesian engine selects questions and updates the fault map. With no key, the built-in
+phrase reader and authored lessons work locally. If a learner connects Neural Pulse, their written
+reasoning is sent to that service for bounded evidence and lesson framing; it cannot select the final
+fault or invent the authored cue, question, or experiment. Connected mode also syncs profile data.
+Avoid entering names or sensitive details into free-text reasoning.
 
 ---
 
@@ -169,11 +194,11 @@ student's browser. See [`docs/adr/0006`](docs/adr/0006-no-key-in-the-public-bund
 The claims above are enforced by code that runs, not by copy that describes it.
 
 ```bash
-npm run verify     # lint → typecheck → 79 tests → build
+npm run verify     # lint → typecheck → 82 tests → build
 ```
 
 - **`npm run lint`** (eslint) and **`npm run typecheck`** (`tsc --noEmit`) are clean.
-- **`npm test`** is **79 tests**: 72 unit tests in plain Node with no DOM and no network, and 7 flow
+- **`npm test`** is **82 tests**: 72 unit tests in plain Node with no DOM and no network, and 10 flow
   tests in jsdom that drive the real interface.
 - The **unit tests** cover the belief arithmetic, the response model, the selector and the session,
   plus the invariants that matter: every one of the twenty fault lines is *reachable* by a simulated
@@ -217,7 +242,7 @@ and the app is configured so that neither is served an inert page.
 
 | Script | |
 |---|---|
-| `npm test` | all 79 tests (add `test:watch` to keep them running) |
+| `npm test` | all 82 tests (add `test:watch` to keep them running) |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run verify` | lint → typecheck → tests → build |
 | `npm run smoke:install` | downloads the one browser the smoke test drives (once) |

@@ -4,7 +4,7 @@ Every claim the README makes, mapped to the check that recomputes it — and, at
 nothing currently recomputes.
 
 ```bash
-npm run verify     # lint → typecheck → 79 tests → build
+npm run verify     # lint → typecheck → 82 tests → build
 npm run smoke      # a real browser against a real dev server (npm run smoke:install first)
 ```
 

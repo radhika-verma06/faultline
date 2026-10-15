@@ -64,7 +64,9 @@ export function Footer() {
         from that instrument is reproduced here — it is copyrighted, and a diagnostic stops working
         the moment students can look up what each wrong answer means.
       </p>
-      <p className="label mt-4">Built by Radhika Verma · runs entirely in this browser</p>
+      <p className="label mt-4">
+        Built by Radhika Verma · local-only by default; Neural Pulse is optional
+      </p>
     </footer>
   );
 }
